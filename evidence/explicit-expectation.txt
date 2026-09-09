@@ -1,0 +1,19 @@
+MCP SDK 2.2.0; real loopback HTTP; fresh SDK token cache per case.
+
+CASE protected-initialization
+after initialize + tools/list: callbacks=1; exchanges=1; PKCE=1; tool executions=0
+metadata: resource=1; issuer=1; challenges=1
+  MCP server/discover: HTTP 401; bearer=False
+  MCP server/discover: HTTP 200; bearer=True
+  MCP tools/list: HTTP 200; bearer=True
+after tools/call: callbacks=1; exchanges=1; PKCE=1; tool executions=1
+metadata: resource=1; issuer=1; challenges=1
+  MCP tools/call: HTTP 200; bearer=True
+PASS protected-initialization
+
+CASE anonymous-catalog
+after initialize + tools/list: callbacks=0; exchanges=0; PKCE=0; tool executions=0
+metadata: resource=0; issuer=0; challenges=0
+  MCP server/discover: HTTP 200; bearer=False
+  MCP tools/list: HTTP 200; bearer=False
+FAIL: Explicit-auth expectation: initialization and catalog discovery completed, but the SDK produced no authorization callback or token.
