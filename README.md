@@ -1,7 +1,7 @@
 # MCP OAuth with anonymous catalog discovery
 
 This isolated spike reproduces a missing OAuth callback with the unmodified MCP C# SDK 2.2.0.
-It contains no Netclaw references, broker, credential store, or copied Netclaw source.
+It contains no Netclaw project references, broker, credential store, or copied Netclaw source.
 One console process hosts a local SDK MCP server and creates real SDK clients over loopback HTTP.
 
 ## Run
@@ -104,4 +104,4 @@ A host command that promises authorization before any tool call exposes the gap 
 - [SDK 2.2.0 OAuth options](https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.2.0/src/ModelContextProtocol.Core/Authentication/ClientOAuthOptions.cs)
 - [Original Netclaw report](https://github.com/netclaw-dev/netclaw/issues/2123)
 
-This repository is local. No upstream issue or remote repository was created.
+This repository provides a standalone reproduction for review. No upstream SDK issue was filed.
