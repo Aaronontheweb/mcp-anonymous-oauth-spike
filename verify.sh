@@ -17,3 +17,6 @@ if [[ "$result" != 1 ]]; then
 fi
 grep -Fxq 'FAIL: Explicit-auth expectation: initialization and catalog discovery completed, but the SDK produced no authorization callback or token.' evidence/explicit-expectation.txt
 echo "Verified: normal SDK OAuth succeeds; explicit authorization through discovery alone does not occur."
+
+dotnet run --project McpAnonymousOAuth --configuration Release --no-build -- --synthetic-challenge > evidence/synthetic-challenge.txt 2>&1
+cat evidence/synthetic-challenge.txt

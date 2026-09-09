@@ -1,0 +1,39 @@
+MCP SDK 2.2.0; real loopback HTTP; fresh SDK token cache per case.
+
+CASE synthetic-Success
+after initialize + tools/list: callbacks=1; exchanges=1; PKCE=1; tool executions=0
+metadata: resource=2; issuer=1; challenges=0
+  MCP server/discover: HTTP 200; bearer=True
+  MCP tools/list: HTTP 200; bearer=True
+after tools/call: callbacks=1; exchanges=1; PKCE=1; tool executions=1
+metadata: resource=2; issuer=1; challenges=0
+  MCP tools/call: HTTP 200; bearer=True
+adapter: synthetic=1; server challenges=0; repeated catalog request caused no additional OAuth.
+adapter after consumption: real HTTP 401 passes through; synthetic=1; tool executions remain 1.
+PASS synthetic-Success
+
+CASE synthetic-ResourceMismatch
+PASS synthetic-ResourceMismatch: metadata rejected before OAuth or MCP use.
+
+CASE synthetic-MetadataFailure
+PASS synthetic-MetadataFailure: metadata rejected before OAuth or MCP use.
+
+CASE synthetic-TokenFailure
+candidate result: SDK returned a client; callbacks=1; token requests=1; exchanges=0
+host credential guard: rejected the anonymous client.
+PASS synthetic-TokenFailure: authorization rejected; callbacks=1; token requests=1; exchanges=0; tool executions=0; synthetic=1.
+
+CASE synthetic-CancelAuthorization
+candidate result: OperationCanceledException; callbacks=1; token requests=0; exchanges=0
+PASS synthetic-CancelAuthorization: authorization rejected; callbacks=1; token requests=0; exchanges=0; tool executions=0; synthetic=1.
+
+CASE synthetic-ToolFailure
+after initialize + tools/list: callbacks=1; exchanges=1; PKCE=1; tool executions=0
+metadata: resource=2; issuer=1; challenges=0
+  MCP server/discover: HTTP 200; bearer=True
+  MCP tools/list: HTTP 200; bearer=True
+after rejected tools/call: callbacks=1; exchanges=1; PKCE=1; tool executions=0
+metadata: resource=2; issuer=1; challenges=0
+  MCP tools/call: HTTP 503; bearer=True
+PASS synthetic-ToolFailure: real HTTP 503 reaches the caller; synthetic=1.
+PASS: Synthetic challenge authorizes before tool use; boundary and failure cases pass.
